@@ -47,18 +47,18 @@ export function createSvgPlugin(
 ): Plugin {
   const { svgoConfig } = options;
   const svgo = new SVGO(svgoConfig);
-  const svgRegex = /\.svg$/;
+  const svgRegex = /(^.*?\.svg)(\?.*)?$/;
 
   return {
     name: "vite-plugin-vue2-svg",
     async transform(_source: string, id: string) {
-      const isMatch = id.match(svgRegex);
-      if (isMatch) {
-        const code: string = readFileSync(id, { encoding: "utf-8" });
-        const svg = await optimizeSvg(svgo, code, id);
+      const match = id.match(svgRegex);
+      if (match) {
+        const code: string = readFileSync(match[1], { encoding: "utf-8" });
+        const svg = await optimizeSvg(svgo, code, match[1]);
         if (!svg)
-          throw new Error(`[vite-plugin-vue2-svg] fail to compile ${id}`);
-        const result = compileSvg(svg, id);
+          throw new Error(`[vite-plugin-vue2-svg] fail to compile ${match[1]}`);
+        const result = compileSvg(svg, match[1]);
 
         return result;
       }
