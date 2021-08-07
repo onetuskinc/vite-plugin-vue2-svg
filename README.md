@@ -1,3 +1,5 @@
+**THIS VERSION IS PATCHED AND INCLUDES THE DIST FILES**
+
 # vite-plugin-vue2-svg
 
 load SVG files as Vue components, for Vue2.x only.
